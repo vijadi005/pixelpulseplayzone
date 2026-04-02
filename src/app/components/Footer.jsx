@@ -65,17 +65,17 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
       {attractionsData?.[0]?.children?.length > 0 && (
         <section className="aero_home-headerimg-wrapper">
           <Image
-            src="https://storage.googleapis.com/aerosports/windsor-new/kids-activity-glow-in-the-dark.webp"
-            alt="Glow Night Event"
+            src="/assets/images/shootinggame.jpg"
+            alt="Shooting game"
             width={1200}
             height={600}
-            title="Glow Night Event"
+            title="Shooting game"
             unoptimized
           />
           <article className="aero-max-container aero_home_BPJ_wrapper">
             {[
               { icon: event_icon, text: "Birthday Parties", url: `/${location_slug}/${birthDaypartyData?.[0]?.path}` },
-              { icon: park_feature_icon, text: "Park Features", url: `/${location_slug}/${attractionsData?.[0]?.path}` },
+             
               { icon: jump_icon, text: "Group Events", url: `/${location_slug}/${groupsData?.[0]?.path}` },
             ].map((item, index) => (
               <div className="d-flex-center" key={index}>

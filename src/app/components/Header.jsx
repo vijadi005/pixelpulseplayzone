@@ -2,50 +2,50 @@
 
 import "../styles/home.css";
 import Link from "next/link";
-import { GrLocation } from "react-icons/gr";
 import Image from "next/image";
 import logo_desktop from "@public/assets/images/logoD.png";
 import logo_mobile from "@public/assets/images/logo.png";
 import MenuButton from "./smallComponents/MenuButton";
-import TopHeader from "./smallComponents/TopHeader";
 import { MdOutlinePermContactCalendar } from "react-icons/md";
-import logo from "@public/assets/images/logo.png";
 import LogoutButton from "./LogoutButton";
-import BookingModal from "./model/BookingModal";
-import { useState } from "react";
 import BookingButton from "./smallComponents/BookingButton";
 import { usePathname } from "next/navigation";
+import { LOCATION_NAME } from "@/lib/constant";
+
+function normalizePath(path = "/") {
+  if (!path) return "/";
+  return path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
+}
 
 const Header = ({ location_slug, menudata, configdata, token }) => {
-
   const pathname = usePathname();
+  const basePath = location_slug === LOCATION_NAME ? "" : `/${location_slug}`;
 
-  const navList = (Array.isArray(menudata) ? menudata : [])
+  const navItems = [
+    { navName: "Home", navUrl: "", href: basePath || "/" },
+    ...(Array.isArray(menudata) ? menudata : [])
     .filter((item) => item.isactive === 1)
-    .map((item) => ({ navName: item.desc, navUrl: item.path.toLowerCase() }))
-  // .sort((a, b) => a.navName.localeCompare(b.navName));
+    .map((item) => ({
+      navName: item.desc,
+      navUrl: item.path.toLowerCase(),
+      href: `${basePath}/${item.path.toLowerCase()}` || `/${item.path.toLowerCase()}`,
+    })),
+  ];
 
-  // console.log(configdata.length);
-  const estoreConfig = Array.isArray(configdata)
-    ? configdata.find((item) => item.key === "estorebase")
-    : null;
+  const locationLabel = String(location_slug || "")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 
-  // const topHeaderConfig = Array.isArray(configdata)
-  //   ? configdata.find((item) => item.key === "top-header")
-  //   : null;
   return (
-    <header>
+    <header className="aero-header-shell">
       <div>
-        <section className="d-flex aero-col-3">
+        <section className="d-flex aero-col-3 aero-header-top">
           <div className="aero-menu-location app-container">
             <div
               className="d-flex-center aero_menu_location_icon"
               style={{ justifyContent: "flex-start" }}
             >
-              <MenuButton navList={navList} location_slug={location_slug} />
-              {/* <Link href="/" className="d-flex-center" prefetch>
-              <GrLocation fontSize={30} color="#fff" />
-            </Link> */}
+              <MenuButton navList={navItems} location_slug={location_slug} />
             </div>
           </div>
 
@@ -68,92 +68,80 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
                   <source media="(max-width:768px)" srcSet={logo_mobile.src} />
                   <Image
                     src={logo_desktop.src}
-                    width={71}
-                    height={71}
+                    width={140}
+                    height={140}
                     alt="logo"
                     unoptimized
                   />
                 </picture>
               </Link>
             </div>
-            <div className="aero-menu-location">
-              {/* <Link href="/" className="aero-d-changelocation" prefetch>
-              <GrLocation />
-              {location_slug}
-            </Link> */}
-              {/* <Link
-              href={`/${location_slug}/about-us/faq`}
-              className="desktop-container"
-              prefetch
-            >
-              <div className="aero-faq">FAQ&apos;s</div>
-            </Link> */}
-            </div>
           </div>
 
           <div
-            className="aero-btn-booknow app-container"
+            className="aero-btn-booknow aero-header-booking app-container"
             style={{ textAlign: "right" }}
           >
-            <BookingButton title="Book" />
+            <BookingButton title="Book Visit" />
           </div>
 
           <div className="aero-btn-booknow-1 aero-btn-booknow desktop-container">
             {token && <LogoutButton />}
+            <span className="aero-header-location-chip">{locationLabel}</span>
             <Link
               href={`/${location_slug}/contactus`}
               prefetch
-              className="aero-header-contactus-btn aero-d-changelocation"
-              style={{ color: "white" }}
+              className="aero-header-contactus-btn aero-header-cta aero-header-cta--outline aero-d-changelocation"
             >
               <MdOutlinePermContactCalendar />
-              <span>Inquire Now</span>
+              <span>Contact</span>
             </Link>
 
-            {/* {estoreConfig?.value && (
-            <Link href={estoreConfig.value} target="_blank" prefetch>
-              <button>book now</button>
-            </Link>
-          )} */}
-
-            <BookingButton />
+            <div className="aero-header-booking">
+              <BookingButton title="Book Visit" />
+            </div>
           </div>
         </section>
 
         <section className="aero_changelocation_height">
-          <nav className="d-flex-center aero-list-7 aero_changelocation_height">
+          <nav className="d-flex-center aero-list-7 aero_changelocation_height aero-header-nav">
             <div className="desktop-container navbar">
-              {Array.isArray(navList) &&
-                navList.map((item) => (
+              {Array.isArray(navItems) &&
+                navItems.map((item) => {
+                  const normalizedPathname = normalizePath(pathname);
+                  const normalizedHref = normalizePath(item.href);
+                  const isActive =
+                    normalizedHref === (basePath || "/")
+                      ? normalizedPathname === normalizedHref
+                      : normalizedPathname === normalizedHref ||
+                        normalizedPathname.startsWith(`${normalizedHref}/`);
+
+                  return (
                   <Link
-                    href={`/${location_slug}/${item?.navUrl}`}
+                    href={item.href}
                     prefetch
                     key={item.navName}
-                    className={`nav-link ${pathname === `/${item?.navUrl}` ? "active" : ""}`}
+                    className={`nav-link ${isActive ? "active" : ""}`}
                   >
                     {item.navName}
                   </Link>
-                ))}
+                )})}
             </div>
             <div
               style={{ position: "relative" }}
               className="aero-header-changelocation-wrap"
             >
-              <Link
-                href="/"
-                prefetch
-                className="aero-app-changelocation app-container"
-              >
-                {location_slug}
-              </Link>
+              <span className="aero-app-changelocation app-container aero-header-mobile-location">
+                {locationLabel}
+              </span>
               <Link
                 href={`/${location_slug}/contactus`}
                 prefetch
-                className="aero-header-contactus-btn aero-app-changelocation app-container"
+                className="aero-header-contactus-btn aero-header-cta aero-header-cta--outline aero-app-changelocation app-container"
                 style={{ marginRight: "0" }}
               >
                 <MdOutlinePermContactCalendar />
-                <span>Inquiry</span>
+                <span>Contact</span>
               </Link>
               <div className="app-container">
                 {token && <LogoutButton />}

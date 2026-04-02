@@ -79,6 +79,15 @@ export async function getBlogs() {
   }
 }
 
+function formatBlogDate(createdAt) {
+  if (!createdAt?.seconds) return "Latest update";
+
+  return new Date(createdAt.seconds * 1000).toLocaleDateString("en-CA", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 const page = async ({ params }) => {
   const location_slug = params?.location_slug || "vaughan";
@@ -115,42 +124,66 @@ const schema = {
 };
 
   return (
-    <main className="aero-blog-main-section">
+    <main className="aero-blog-main-section ppp-blogs-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(schema),
         }}
       />
-      <section className="aero-max-container">
-        {/* <h1 className="aero-blog-main-heading" style={{paddingTop:'80px'}}>All Blogs</h1> */}
-        <div style={{ padding: "50px 0 40px 0" }}>
+      <section className="ppp-blogs-hero">
+        
+          
+
+          <div className="ppp-blogs-hero__panel">
+            <div className="ppp-blogs-hero-card">
+              <span className="ppp-blogs-hero-card__label">What you'll find</span>
+              <h2>Helpful reads for planning visits, discovering attractions, and making group play even better.</h2>
+              <ul>
+                <li>Planning tips for families, parties, and group outings</li>
+                <li>Highlights from attractions, experiences, and events</li>
+                <li>Useful updates that keep your next visit easy to organize</li>
+              </ul>
+            </div>
+          </div>
+        
+      </section>
+
+      <section className="aero-max-container ppp-blogs-layout">
+        <div className="ppp-blogs-section-intro">
           <SectionHeading mainHeading="true">
             All <span>Blogs</span>
           </SectionHeading>
+          <p>
+            Browse the latest posts and jump into the topics that matter most to your next Pixel Pulse visit.
+          </p>
         </div>
-        <section className="aero-blog-main-article-wrapper">
+
+        <section className="ppp-blogs-grid">
           {extractBlogData?.map((item) => {
             const slug = slugify(item.title);
             return (
-              <article className="aero-blog-main-article-card" key={item.id}>
-                <div className="aero-blog-img-section">
+              <article className="ppp-blog-card" key={item.id}>
+                <div className="ppp-blog-card__media">
                   <Link href={`blogs/${slug}?uid=${item.id}`} prefetch>
                     <img
                       src={item?.featuredImage || "/assets/images/logo.png"}
-                      alt="Article Image"
+                      alt={item?.title || "Blog article image"}
                     />
                   </Link>
                 </div>
-                <div className="aero-blog-content-section">
-                  <span className="aero-blog-updated-time">{item.pageid}</span>
+                <div className="ppp-blog-card__body">
+                  <span className="ppp-blog-card__meta">{formatBlogDate(item.createdAt)}</span>
                   <Link href={`blogs/${slug}?uid=${item.id}`} prefetch>
-                    <h2 className="aero-blog-second-heading">{item.title}</h2>
+                    <h2 className="ppp-blog-card__title">{item.title}</h2>
+                    {item?.metaDescription && (
+                      <p className="ppp-blog-card__excerpt">{item.metaDescription}</p>
+                    )}
                   </Link>
                   <Link
                     href={`blogs/${slug}?uid=${item.id}`}
                     prefetch
-                    className="aero-blog-readmore-btn"
+                    className="ppp-blog-card__link"
                   >
                     READ MORE
                   </Link>
