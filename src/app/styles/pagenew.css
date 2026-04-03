@@ -10,7 +10,7 @@
   --ppp-dark:       #0d1117;
   --ppp-card:       #111827;
   --ppp-card-border:#1f2d40;
-  --ppp-cyan:       #00e5ff;
+  --ppp-cyan:       #fbae7b;
   --ppp-cyan-dim:   #00b8cc;
   --ppp-magenta:    #ff2d78;
   --ppp-yellow:     #ffd200;
@@ -21,7 +21,7 @@
   --ppp-radius-lg:  18px;
 
   /* Neon glow helpers */
-  --glow-cyan:      0 0 18px rgba(0, 229, 255, 0.35);
+  --glow-cyan:      0 0 18px rgba(251, 174, 123, 0.35);
   --glow-magenta:   0 0 18px rgba(255, 45, 120, 0.35);
 
   /* Typography */
@@ -70,9 +70,9 @@
   box-shadow: var(--glow-cyan);
 }
 .ppp-btn--primary:hover {
-  background: #00e5ff;
+  background: #fbae7b;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(0, 229, 255, 0.6);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.6);
 }
 
 .ppp-btn--outline {
@@ -81,7 +81,7 @@
   border-color: var(--ppp-cyan);
 }
 .ppp-btn--outline:hover {
-  background: rgba(0, 229, 255, 0.08);
+  background: rgba(251, 174, 123, 0.08);
   transform: translateY(-2px);
   box-shadow: var(--glow-cyan);
 }
@@ -540,7 +540,7 @@
    ================================================================ */
 .ppp-cta-band {
   padding: 100px 0;
-  background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.06) 0%, var(--ppp-black) 70%);
+  background: radial-gradient(ellipse at center, rgba(251, 174, 123, 0.06) 0%, var(--ppp-black) 70%);
   border-top: 1px solid var(--ppp-card-border);
   text-align: center;
 }

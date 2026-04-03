@@ -6,7 +6,6 @@ import Image from "next/image";
 import logo_desktop from "@public/assets/images/logoD.png";
 import logo_mobile from "@public/assets/images/logo.png";
 import MenuButton from "./smallComponents/MenuButton";
-import { MdOutlinePermContactCalendar } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
 import BookingButton from "./smallComponents/BookingButton";
 import { usePathname } from "next/navigation";
@@ -31,10 +30,6 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
       href: `${basePath}/${item.path.toLowerCase()}` || `/${item.path.toLowerCase()}`,
     })),
   ];
-
-  const locationLabel = String(location_slug || "")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
     <header className="aero-header-shell">
@@ -87,14 +82,12 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
 
           <div className="aero-btn-booknow-1 aero-btn-booknow desktop-container">
             {token && <LogoutButton />}
-            <span className="aero-header-location-chip">{locationLabel}</span>
             <Link
               href={`/${location_slug}/contactus`}
               prefetch
-              className="aero-header-contactus-btn aero-header-cta aero-header-cta--outline aero-d-changelocation"
+              className="aero-header-contactus-btn aero-header-cta aero-header-cta--solid aero-d-changelocation"
             >
-              <MdOutlinePermContactCalendar />
-              <span>Contact</span>
+              <span>Enquire</span>
             </Link>
 
             <div className="aero-header-booking">
@@ -131,17 +124,13 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
               style={{ position: "relative" }}
               className="aero-header-changelocation-wrap"
             >
-              <span className="aero-app-changelocation app-container aero-header-mobile-location">
-                {locationLabel}
-              </span>
               <Link
                 href={`/${location_slug}/contactus`}
                 prefetch
-                className="aero-header-contactus-btn aero-header-cta aero-header-cta--outline aero-app-changelocation app-container"
+                className="aero-header-contactus-btn aero-header-cta aero-header-cta--solid aero-app-changelocation app-container"
                 style={{ marginRight: "0" }}
               >
-                <MdOutlinePermContactCalendar />
-                <span>Contact</span>
+                <span>Enquire</span>
               </Link>
               <div className="app-container">
                 {token && <LogoutButton />}

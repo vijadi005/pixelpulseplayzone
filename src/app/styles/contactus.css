@@ -1,6 +1,6 @@
 .ppp-contact-page {
   background:
-    radial-gradient(circle at top left, rgba(0, 229, 255, 0.12), transparent 24%),
+    radial-gradient(circle at top left, rgba(251, 174, 123, 0.12), transparent 24%),
     radial-gradient(circle at top right, rgba(164, 207, 95, 0.1), transparent 20%),
     linear-gradient(180deg, #050810 0%, #09111b 24%, #000000 100%);
   color: var(--white-color);
@@ -26,7 +26,7 @@
   height: 280px;
   top: -60px;
   left: -70px;
-  background: rgba(0, 229, 255, 0.2);
+  background: rgba(251, 174, 123, 0.2);
 }
 
 .ppp-contact-hero::after {
@@ -182,8 +182,8 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: rgba(0, 229, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+  border-color: rgba(251, 174, 123, 0.5);
+  box-shadow: 0 0 0 3px rgba(251, 174, 123, 0.12);
 }
 
 .submit-button {
@@ -206,9 +206,9 @@
 }
 
 .submit-button:hover {
-  background-color: #00e5ff;
+  background-color: #fbae7b;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.45);
 }
 
 @media (max-width: 960px) {

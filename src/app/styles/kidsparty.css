@@ -1,7 +1,7 @@
 .ppp-party-page {
   background:
     radial-gradient(circle at top left, rgba(255, 75, 43, 0.14), transparent 22%),
-    radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 20%),
+    radial-gradient(circle at top right, rgba(251, 174, 123, 0.12), transparent 20%),
     linear-gradient(180deg, #06080f 0%, #0b1220 24%, #000000 100%);
 }
 
@@ -33,7 +33,7 @@
   height: 320px;
   right: -90px;
   bottom: 10px;
-  background: rgba(0, 229, 255, 0.14);
+  background: rgba(251, 174, 123, 0.14);
 }
 
 .ppp-party-hero__inner {
@@ -113,8 +113,8 @@
 
 .ppp-party-hero__link:hover {
   transform: translateY(-2px);
-  background: rgba(0, 229, 255, 0.08);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  background: rgba(251, 174, 123, 0.08);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .ppp-party-hero__stats {
@@ -275,7 +275,7 @@
 }
 
 .ppp-party-table__plan-col.is-featured .ppp-party-plan {
-  background: linear-gradient(135deg, #ff4b2b, rgba(0, 229, 255, 0.9));
+  background: linear-gradient(135deg, #ff4b2b, rgba(251, 174, 123, 0.9));
 }
 
 .ppp-party-table td,

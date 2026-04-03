@@ -6,7 +6,7 @@
 
 .ppp-attractions-page {
   background:
-    radial-gradient(circle at top left, rgba(0, 229, 255, 0.14), transparent 24%),
+    radial-gradient(circle at top left, rgba(251, 174, 123, 0.14), transparent 24%),
     radial-gradient(circle at top right, rgba(164, 207, 95, 0.12), transparent 20%),
     linear-gradient(180deg, #050810 0%, #09111b 24%, #000000 100%);
 }
@@ -31,7 +31,7 @@
   height: 280px;
   top: -60px;
   left: -70px;
-  background: rgba(0, 229, 255, 0.2);
+  background: rgba(251, 174, 123, 0.2);
 }
 
 .ppp-attractions-hero::after {
@@ -118,8 +118,8 @@
 .ppp-attractions-hero__link:hover,
 .ppp-attraction-card-modern__link:hover {
   transform: translateY(-2px);
-  background: rgba(0, 229, 255, 0.08);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  background: rgba(251, 174, 123, 0.08);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .ppp-attractions-hero__stats {
@@ -242,7 +242,7 @@
 
 .ppp-attraction-card-modern:hover {
   transform: translateY(-4px);
-  border-color: rgba(0, 229, 255, 0.32);
+  border-color: rgba(251, 174, 123, 0.32);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
 }
 
@@ -303,7 +303,7 @@
 .ppp-groups-page {
   background:
     radial-gradient(circle at top left, rgba(255, 75, 43, 0.14), transparent 24%),
-    radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 20%),
+    radial-gradient(circle at top right, rgba(251, 174, 123, 0.12), transparent 20%),
     linear-gradient(180deg, #050810 0%, #09111b 24%, #000000 100%);
 }
 
@@ -335,7 +335,7 @@
   height: 320px;
   right: -90px;
   bottom: 20px;
-  background: rgba(0, 229, 255, 0.16);
+  background: rgba(251, 174, 123, 0.16);
 }
 
 .ppp-groups-hero__inner {
@@ -572,14 +572,14 @@
 
 .ppp-group-card-modern__link:hover {
   transform: translateY(-2px);
-  background: rgba(0, 229, 255, 0.08);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  background: rgba(251, 174, 123, 0.08);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .ppp-about-page {
   background:
     radial-gradient(circle at top left, rgba(164, 207, 95, 0.12), transparent 24%),
-    radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 20%),
+    radial-gradient(circle at top right, rgba(251, 174, 123, 0.12), transparent 20%),
     linear-gradient(180deg, #050810 0%, #09111b 24%, #000000 100%);
 }
 
@@ -611,7 +611,7 @@
   height: 320px;
   right: -90px;
   bottom: 20px;
-  background: rgba(0, 229, 255, 0.14);
+  background: rgba(251, 174, 123, 0.14);
 }
 
 .ppp-about-hero__inner {
@@ -918,8 +918,8 @@
 
 .ppp-about-card-modern__link:hover {
   transform: translateY(-2px);
-  background: rgba(0, 229, 255, 0.08);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  background: rgba(251, 174, 123, 0.08);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .aero_category_main_heading {

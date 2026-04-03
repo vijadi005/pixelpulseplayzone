@@ -19,7 +19,7 @@ body {
 }
 
 :root {
-  --primary-color: #00e5ff;
+  --primary-color: #fbae7b;
   --secondary-color: #a4cf5f;
   --white-color: #ffffff;
   --black-color: #000000;
@@ -527,7 +527,7 @@ header:first-child + * {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(0, 229, 255, 0.18), transparent 24%),
+    radial-gradient(circle at top left, rgba(251, 174, 123, 0.18), transparent 24%),
     radial-gradient(circle at bottom right, rgba(164, 207, 95, 0.14), transparent 22%),
     rgba(2, 6, 23, 0.82);
   backdrop-filter: blur(14px);
@@ -580,7 +580,7 @@ header:first-child + * {
 }
 
 .booking-closeBtn:hover {
-  background: rgba(0, 229, 255, 0.12);
+  background: rgba(251, 174, 123, 0.12);
   transform: rotate(90deg);
 }
 
@@ -594,7 +594,7 @@ header:first-child + * {
   min-height: 100%;
   padding: 20px;
   background:
-    radial-gradient(circle at top right, rgba(0, 229, 255, 0.08), transparent 26%),
+    radial-gradient(circle at top right, rgba(251, 174, 123, 0.08), transparent 26%),
     radial-gradient(circle at bottom left, rgba(164, 207, 95, 0.08), transparent 24%);
 }
 

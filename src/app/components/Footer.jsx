@@ -79,7 +79,16 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
               { icon: jump_icon, text: "Group Events", url: `/${location_slug}/${groupsData?.[0]?.path}` },
             ].map((item, index) => (
               <div className="d-flex-center" key={index}>
-                <a href={item.url} >  <Image src={item.icon} width={90} height={80} alt={item.text} unoptimized /></a>
+                <a href={item.url} >
+                  <Image
+                    src={item.icon}
+                    width={90}
+                    height={80}
+                    alt={item.text}
+                    className={item.text === "Birthday Parties" ? "aero_home_BPJ_icon--glow" : ""}
+                    unoptimized
+                  />
+                </a>
                 <span>{item.text}</span>
               </div>
             ))}

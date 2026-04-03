@@ -47,7 +47,7 @@ const BlogCard = async ({ blogsData, location_slug }) => {
                 <div className="aero_home_article_desc">
                   <div>{i + 1}</div>
                   <h3>{item?.title}</h3>
-                  <p>Continue Reading...</p>
+                  <span className="aero_home_article_cta">Continue Reading</span>
                 </div>
               </article>
             </Link>

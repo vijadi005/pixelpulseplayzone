@@ -236,15 +236,20 @@
   justify-content: center;
   gap: 8px;
   min-height: 38px;
+  min-width: 112px;
   padding: 8px 14px;
   border-radius: 6px;
   font-family: "Barlow Condensed", Impact, sans-serif;
   font-size: 0.76rem;
   font-weight: 800;
+  line-height: 1;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
@@ -253,20 +258,33 @@
   border: 2px solid var(--primary-color);
   background: var(--primary-color);
   color: #050810;
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .aero-header-booking button:hover {
   top: auto;
-  background: #00e5ff;
+  background: #fbae7b;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(0, 229, 255, 0.6);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.6);
 }
 
 .aero-header-cta {
   border: 2px solid var(--primary-color);
   color: var(--primary-color) !important;
   background: transparent;
+}
+
+.aero-header-cta--solid {
+  border: 2px solid var(--primary-color);
+  background: var(--primary-color);
+  color: #050810 !important;
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
+}
+
+.aero-header-cta--solid:hover {
+  background: #fbae7b;
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.6);
 }
 
 .navbar {
@@ -300,13 +318,13 @@
 .nav-link.active {
   color: #050810;
   background: #a4cf5f;
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.28);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.28);
   backdrop-filter: blur(14px);
 }
 
 @media (max-width: 991px) {
   .desktop-container {
-    display: block;
+    display: none;
   }
 
   .aero-col-3 {
@@ -323,7 +341,8 @@
     flex-basis: auto;
   }
 
-  .aero-col-3 .aero-header-logo {
+  .aero-col-3 .aero-header-logo.desktop-container {
+    display: flex;
     justify-content: center;
     padding: 0;
     min-width: 0;
@@ -337,21 +356,27 @@
   }
 
   .aero_main_logo img {
-    max-width: 148px;
+    max-width: 128px;
     padding: 0;
+    width: auto;
+    height: auto;
+    object-fit: contain;
   }
 
   .aero-header-booking.app-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    min-width: 0;
   }
 
   .aero-header-booking button,
   .aero-header-cta {
-    min-height: 42px;
-    padding: 10px 16px;
-    font-size: 0.82rem;
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   .aero_changelocation_height {
@@ -374,6 +399,9 @@
     padding-inline: 0.9rem;
     font-size: 0.76rem;
     letter-spacing: 0.08em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .aero-header-changelocation-wrap .aero-header-contactus-btn {
@@ -381,12 +409,60 @@
     min-width: fit-content;
     white-space: nowrap;
   }
+
+  .aero-header-changelocation-wrap .app-container {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .aero-col-3 {
+    gap: 0.5rem;
+    padding: 0.6rem 0.7rem;
+    min-height: 72px;
+  }
+
+  .aero-mobile-menu-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .aero_main_logo img {
+    max-width: 110px;
+  }
+
+  .aero-header-booking button,
+  .aero-header-cta {
+    min-height: 34px;
+    padding: 8px 10px;
+    font-size: 0.68rem;
+  }
+
+  .aero-header-changelocation-wrap {
+    gap: 0.5rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .aero-header-mobile-location {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  .aero-header-contactus-btn span {
+    display: none;
+  }
+
+  .aero-header-contactus-btn {
+    min-width: 40px;
+    padding-inline: 10px;
+  }
 }
 
 .aero-header-cta:hover {
   transform: translateY(-2px);
-  background: rgba(0, 229, 255, 0.08);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+  background: rgba(251, 174, 123, 0.08);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
 .aero-btn-kidslearnmore {
@@ -647,7 +723,7 @@
   min-width: 50px;
   width: 50px;
   height: 50px;
-  background-color: #00e5ff;
+  background-color: #fbae7b;
   border-radius: 50%;
   position: absolute;
   top: -32px;
@@ -673,6 +749,32 @@
   text-align: left;
   padding: 0 0.5em 1em;
   margin-bottom: 2px !important;
+}
+
+.aero_home_article_cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin: 1em 0.75em 1.1em;
+  padding: 0em 1.1em;
+  border: 2px solid var(--primary-color);
+  border-radius: 999px;
+  background: rgba(251, 174, 123, 0.1);
+  color: var(--black-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 14px rgba(251, 174, 123, 0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.aero_home_article_card:hover .aero_home_article_cta {
+  transform: translateY(-2px);
+  background: var(--primary-color);
+  box-shadow: 0 0 22px rgba(251, 174, 123, 0.35);
 }
 
 /* feature section */
@@ -736,6 +838,11 @@
 .aero_home_BPJ_wrapper img {
   width: 90px;
   height: auto;
+}
+
+.aero_home_BPJ_wrapper .aero_home_BPJ_icon--glow {
+  filter: drop-shadow(0 0 10px rgba(251, 174, 123, 0.55))
+    drop-shadow(0 0 24px rgba(251, 174, 123, 0.32));
 }
 
 .aero_home_BPJ_wrapper span {
