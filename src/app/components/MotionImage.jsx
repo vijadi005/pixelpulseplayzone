@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import SectionHeading from "./home/SectionHeading";
+
+const HERO_VIDEO_SRC = "/assets/video/Website Hero Banner.mp4";
 
 const MotionImage = ({ pageData, waiverLink }) => {
+  const videoRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+
   if (!pageData) return null;
 
   const item = Array.isArray(pageData) && pageData.length > 0 ? pageData[0] : pageData;
@@ -14,13 +16,31 @@ const MotionImage = ({ pageData, waiverLink }) => {
 
   const hasVideo = Boolean(item.video);
 
+  const handleToggleMute = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+
+    if (videoRef.current) {
+      videoRef.current.muted = nextMuted;
+    }
+  };
+
   return (
     <section className="aero_home-headerimg-wrapper">
       {hasVideo ? (
         <section className="aero_home_video-container">
-          <video autoPlay muted loop playsInline width="100%">
-            <source src={item.video} type="video/mp4" />
+          <video ref={videoRef} autoPlay muted={isMuted} loop playsInline width="100%">
+            <source src={HERO_VIDEO_SRC} type="video/mp4" />
           </video>
+          <button
+            type="button"
+            className="aero_home_video-toggle"
+            onClick={handleToggleMute}
+            aria-pressed={!isMuted}
+            aria-label={isMuted ? "Unmute hero video" : "Mute hero video"}
+          >
+            {isMuted ? "Unmute" : "Mute"}
+          </button>
 
           {/* <article className="image-content">
 
