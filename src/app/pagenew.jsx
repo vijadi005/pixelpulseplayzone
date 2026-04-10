@@ -1,5 +1,4 @@
-import "./styles/home.css";
-import "./styles/pagenew.css";
+import "./styles/newhome.css";
 import "./styles/promotions.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,24 +17,15 @@ import { LOCATION_NAME } from "./lib/constant";
 import PixelPulseSection from "./components/home/PixelPulseSection";
 import CelebrateEventsSection from "./components/home/CelebrateEventsSection";
 import SectionHeading from "./components/home/SectionHeading";
-import BookingButton from "./components/smallComponents/BookingButton";
 
 export async function generateMetadata() {
   const location_slug = LOCATION_NAME || "vaughan";
-  try {
-    const metadata = await generateMetadataLib({
-      location: location_slug,
-      category: "",
-      page: "",
-    });
-    return metadata;
-  } catch (error) {
-    console.error("home metadata failed:", error);
-    return {
-      title: "Pixel Pulse Play Vaughan",
-      description: "Indoor arcade games, challenge rooms, and family fun in Vaughan.",
-    };
-  }
+  const metadata = await generateMetadataLib({
+    location: location_slug,
+    category: "",
+    page: "",
+  });
+  return metadata;
 }
 
 /* ─── JSON-LD schema updated for Vaughan ─── */
@@ -44,7 +34,7 @@ const pixelPulseSchema = {
   "@type": "AmusementPark",
   name: "Pixel Pulse Play — Next-Gen Indoor Gaming",
   description:
-    "Vaughan's next-generation indoor gaming arena with laser mazes, interactive tile challenges, climbing walls, and more.",
+    "Vaughan's next-generation indoor gaming arena with laser mazes, interactive tile challenges, climbing walls, and more."
   address: {
     "@type": "PostalAddress",
     addressLocality: "Vaughan",
@@ -75,41 +65,45 @@ const STATS = [
 const PRICING = [
   {
     tier: "Starter",
-    name: "Explorer Pass (30 Min)",
-    price: 19,
+    name: "Explorer Pass",
+    price: 18,
     unit: "per player",
     tag: null,
     features: [
-      "Access to game zones",
-      "30-minute session",
-      
+      "Access to 4 game zones",
+      "60-minute session",
+      "Grip socks included",
     ],
     cta: "Book Explorer",
     href: "/programs",
   },
   {
     tier: "Best Value",
-    name: "All-Access Pass (60 Min)",
-    price: 29,
+    name: "All-Access Pass",
+    price: 28,
     unit: "per player",
     tag: "Most Popular",
     features: [
-      "All game zones",
-      "60-minute session",
-      
+      "All 8 game zones",
+      "90-minute session",
+      "Grip socks included",
+      "1 complimentary drink",
     ],
     cta: "Book All-Access",
     href: "/programs",
   },
   {
     tier: "Celebration",
-    name: "Party Package (90 Min)",
+    name: "Party Package",
     price: 38,
     unit: "per player",
     tag: null,
     features: [
-      "All game zones",
-       "90-minute session",
+      "All 8 game zones",
+      "2-hour session",
+      "Private party room",
+      "Dedicated party host",
+      "Pizza & drinks included",
     ],
     cta: "Book Party",
     href: "/kids-birthday-parties",
@@ -136,7 +130,7 @@ const WHY_REASONS = [
   {
     icon: "🎪",
     title: "Something for Everyone",
-    body: "Distinct zones mean there's always a new challenge. Kids, teens, and adults all find their game.",
+    body: "8 distinct zones mean there's always a new challenge. Kids, teens, and adults all find their game.",
   },
 ];
 
@@ -165,21 +159,13 @@ const REVIEWS = [
 const Home = async () => {
   const location_slug = LOCATION_NAME;
 
-  let waiverLink = "";
-  let data = [];
-  let dataconfig = [];
-  let promotions = [];
+  const waiverLink = await getWaiverLink(location_slug);
 
-  try {
-    [waiverLink, data, dataconfig, promotions] = await Promise.all([
-      getWaiverLink(location_slug),
-      fetchMenuData(location_slug),
-      fetchsheetdata("config", location_slug),
-      fetchsheetdata("promotions", location_slug),
-    ]);
-  } catch (error) {
-    console.error("home page data failed:", error);
-  }
+  const [data, dataconfig, promotions] = await Promise.all([
+    fetchMenuData(location_slug),
+    fetchsheetdata("config", location_slug),
+    fetchsheetdata("promotions", location_slug),
+  ]);
 
   const homepageSection1 =
     Array.isArray(dataconfig)
@@ -189,16 +175,6 @@ const Home = async () => {
   const promotionPopup = Array.isArray(dataconfig)
     ? dataconfig.filter((item) => item.key === "promotion-popup")
     : [];
-  const safePromotions = Array.isArray(promotions)
-    ? JSON.parse(JSON.stringify(promotions))
-    : [];
-  const hasPromotionRows = Array.isArray(promotions)
-    ? safePromotions.some((promo) =>
-        Object.values(promo || {}).some(
-          (value) => typeof value === "string" && value.trim() !== ""
-        )
-      )
-    : false;
 
   const header_image = Array.isArray(data)
     ? data.filter((item) => item.path === "home")
@@ -218,11 +194,9 @@ const Home = async () => {
 
   return (
     <main className="ppp-home">
-      {hasPromotionRows && (
-        <PromotionModal
-          promotionPopup={promotionPopup}
-          promotions={safePromotions}
-        />
+      {/* ── Promotion popup ── */}
+      {promotionPopup.length > 0 && (
+        <PromotionModal promotionPopup={promotionPopup} />
       )}
 
       {/* ── Hero ── */}
@@ -237,7 +211,9 @@ const Home = async () => {
             </SectionHeading>
 
             <div className="ppp-ctabar__buttons">
-              <BookingButton title="Book Now" className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+              <Link href="/programs" className="ppp-btn ppp-btn--primary" prefetch>
+                BOOK NOW
+              </Link>
               <Link href="/kids-birthday-parties" className="ppp-btn ppp-btn--outline" prefetch>
                 BIRTHDAY PARTIES
               </Link>
@@ -262,7 +238,7 @@ const Home = async () => {
         </div>
       </section>
 
-      {/* ── Stats bar ── 
+      {/* ── Stats bar ── */}
       {attractionsData?.[0]?.children?.length > 0 && (
         <section className="ppp-stats">
           <div className="aero-max-container ppp-stats__grid">
@@ -274,14 +250,14 @@ const Home = async () => {
             ))}
           </div>
         </section>
-      )}*/}
+      )}
 
       {/* ── Attractions grid ── */}
       {attractionsData?.[0]?.children?.length > 0 && (
         <section className="ppp-section ppp-attractions">
           <div className="aero-max-container">
             <SectionHeading className="section-heading-white">
-              EPIC <span>GAME ROOMS</span>
+              8 EPIC <span>GAME ZONES</span>
             </SectionHeading>
             <p className="ppp-section__sub">
               Every zone is designed to challenge your body and mind. Run, climb, aim, and think your way through next-level physical gaming.
@@ -323,7 +299,7 @@ const Home = async () => {
       )}
 
       {/* ── Promotions ── */}
-      {safePromotions?.length > 0 && (
+      {promotions?.length > 0 && (
         <section className="ppp-section ppp-promos">
           <div className="aero-max-container">
             <SectionHeading className="section-heading-white">
@@ -334,7 +310,7 @@ const Home = async () => {
             </p>
 
             <div className="promotions__grid">
-              {safePromotions.map((promo, index) => (
+              {promotions.map((promo, index) => (
                 <article key={index} className="promotion-card">
                   <span className="promotion-card__badge">{promo.badge}</span>
                   <h3 className="promotion-card__title">{promo.title}</h3>
@@ -410,11 +386,9 @@ const Home = async () => {
                     </li>
                   ))}
                 </ul>
-                <BookingButton
-                  title={p.cta}
-                  className="ppp-btn ppp-btn--primary ppp-pricing__cta"
-                  bookingType={p.href === "/kids-birthday-parties" ? "party" : "ticket"}
-                />
+                <Link href={p.href} className="ppp-btn ppp-btn--primary ppp-pricing__cta" prefetch>
+                  {p.cta}
+                </Link>
               </article>
             ))}
           </div>
@@ -485,14 +459,10 @@ const Home = async () => {
             Located in Vaughan — serving all of the GTA.
           </p>
           <div className="ppp-cta-band__actions">
-            <BookingButton title="Book Now" className="ppp-btn ppp-btn--primary" bookingType="ticket" />
-            <Link
-              href="https://maps.app.goo.gl/anxfwSCGYZNpNmnC7"
-              className="ppp-btn ppp-btn--outline"
-              target="_blank"
-              rel="noopener noreferrer"
-              prefetch={false}
-            >
+            <Link href="/programs" className="ppp-btn ppp-btn--primary" prefetch>
+              🎮 Book Now
+            </Link>
+            <Link href="/contact" className="ppp-btn ppp-btn--outline" prefetch>
               📍 Get Directions
             </Link>
           </div>
