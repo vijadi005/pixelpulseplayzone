@@ -124,7 +124,82 @@ function parseHeroTextBlock(content = "") {
   };
 }
 
-function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
+const fallbackCardMeta = [
+  {
+   
+    
+    image: "/assets/images/floorchallenge.jpg",
+    imageAlt: "Game rooms at Pixel Pulse Play",
+    bookable: true,
+  },
+  {
+   
+    
+    
+    image: "/assets/images/arcade.JPG",
+    imageAlt: "Arcade at Pixel Pulse Play",
+   
+    bookable: false,
+  },
+];
+
+function parseBoolean(value, fallback) {
+  if (typeof value !== "string" || !value.trim()) {
+    return fallback;
+  }
+
+  return !["0", "false", "no", "n"].includes(value.trim().toLowerCase());
+}
+
+function parseCardDetails(details = "") {
+  if (typeof details !== "string" || !details.trim()) {
+    return null;
+  }
+
+  const parsedDetails = details
+    .split("|")
+    .map((detail) => {
+      const [label, ...valueParts] = detail.split(/[:=]/);
+      const value = valueParts.join(":").trim();
+
+      return {
+        label: label?.trim(),
+        value,
+      };
+    })
+    .filter((detail) => detail.label && detail.value);
+
+  return parsedDetails.length > 0 ? parsedDetails : null;
+}
+
+function isChallengeRoomsArcadeCard(title = "") {
+  const normalizedTitle = title.toLowerCase();
+  return normalizedTitle.includes("challenge rooms") && normalizedTitle.includes("arcade");
+}
+
+function buildCardMeta(configData) {
+  const sheetCardMeta = parseConfigMatrix(configData, "pricingcardmeta") || [];
+  const parsedCardMeta = sheetCardMeta
+    .map((row) => {
+      const details = parseCardDetails(row.value7);
+      const title = row.value1 || "";
+
+      return {
+        title,
+        eyebrow: row.value2 || "",
+        duration: row.value3 || "",
+        image: row.value4 || "",
+        imageAlt: row.value5 || title,
+        bookable: parseBoolean(row.value6, title !== "Arcade+"),
+        ...(details ? { details } : {}),
+      };
+    })
+    .filter((meta) => meta.title);
+
+  return parsedCardMeta.length > 0 ? parsedCardMeta : fallbackCardMeta;
+}
+
+function buildPricingCards(pricingRows, detailKeys, pricingHeaders, cardMeta) {
   const baseCards = pricingRows.map((row) => ({
     duration: row.value1,
     details: detailKeys.map((detailKey) => ({
@@ -133,37 +208,20 @@ function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
     })),
   }));
 
-  const cardMeta = [
-    {
-      title: "Game Rooms",
-      eyebrow: "Session Time",
-      image: "/assets/images/floorchallenge.jpg",
-      imageAlt: "Game rooms at Pixel Pulse Play",
-    },
-    {
-      title: "Arcade+",
-      eyebrow: "Arcade Card",
-      duration: "Choose Your Card",
-      image: "/assets/images/arcade.JPG",
-      imageAlt: "Arcade at Pixel Pulse Play",
-      details: [
-        { label: "Arcade Card", value: "$10" },
-        { label: "Arcade Card", value: "$20" },
-      ],
-    },
-  ];
-
   return cardMeta.map((meta, index) => {
     const fallbackCard = baseCards[index] || { duration: "", details: [] };
+    const hideDurationAndThirdRow = isChallengeRoomsArcadeCard(meta.title);
+    const details = meta.details || fallbackCard.details;
 
     return {
       title: meta.title,
       eyebrow: meta.eyebrow,
       duration: meta.duration || fallbackCard.duration,
-      details: meta.details || fallbackCard.details,
+      hideDuration: hideDurationAndThirdRow,
+      details: hideDurationAndThirdRow ? details.slice(0, 2) : details,
       image: meta.image,
       imageAlt: meta.imageAlt,
-      bookable: meta.title !== "Arcade+",
+      bookable: meta.bookable,
     };
   });
 }
@@ -190,9 +248,10 @@ const PricingPromosPage = async ({ params }) => {
 
   const pricingHeaders = parseConfigMatrix(configData, "pricingheader")?.[0] || {};
   const pricingRows = parseConfigMatrix(configData, "pricing") || [];
+  const cardMeta = buildCardMeta(configData);
   const detailKeys = Object.keys(pricingHeaders).slice(1);
 
-  const pricingCards = buildPricingCards(pricingRows, detailKeys, pricingHeaders);
+  const pricingCards = buildPricingCards(pricingRows, detailKeys, pricingHeaders, cardMeta);
 
   const introText =
     stripHtml(pageData?.section1 || "") ||
@@ -250,7 +309,9 @@ const PricingPromosPage = async ({ params }) => {
                         <div className="ppp-pricing-card__top">
                           <span className="ppp-pricing-card__eyebrow">{card.eyebrow}</span>
                           <h3>{card.title}</h3>
-                          {card.duration && <p className="ppp-pricing-card__subhead">{card.duration}</p>}
+                          {card.duration && !card.hideDuration && (
+                            <p className="ppp-pricing-card__subhead">{card.duration}</p>
+                          )}
                         </div>
 
                         <div className="ppp-pricing-card__details">

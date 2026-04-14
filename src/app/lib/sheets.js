@@ -9,10 +9,14 @@ const waiverLinkCache = new Map();
 const reviewesData = new Map();
 let workbookLoadPromise = null;
 
+async function loadWorkbook() {
+  const response = await axios.get(SHEET_URL, { responseType: 'arraybuffer' });
+  return XLSX.read(response.data, { type: 'buffer' });
+}
+
 async function populateSheetCache() {
   const now = Date.now();
-  const response = await axios.get(SHEET_URL, { responseType: 'arraybuffer' });
-  const workbook = XLSX.read(response.data, { type: 'buffer' });
+  const workbook = await loadWorkbook();
 
   const worksheetLocationsData = workbook.Sheets['locations'];
   const jsonLocationsData = XLSX.utils.sheet_to_json(worksheetLocationsData, { defval: '' });
@@ -97,8 +101,7 @@ async function fetchsheetdata(sheetName, location) {
 
 async function fetchsheetdataNoCache(sheetName) {
    
-    const response = await axios.get(SHEET_URL, { responseType: 'arraybuffer' });
-    const workbook = XLSX.read(response.data, { type: 'buffer' });
+    const workbook = await loadWorkbook();
 
     const worksheetLocationsData = workbook.Sheets[sheetName];
     const jsonLocationsData = XLSX.utils.sheet_to_json(worksheetLocationsData, { defval: '' });
