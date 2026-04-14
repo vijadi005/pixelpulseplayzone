@@ -6,6 +6,8 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(_, { params }) {
+  const { id } = await params;
+
   if (!db) {
     return NextResponse.json(
       { error: "Firestore is not configured locally" },
@@ -13,7 +15,7 @@ export async function GET(_, { params }) {
     );
   }
 
-  const doc = await db.collection("blogs").doc(params.id).get();
+  const doc = await db.collection("blogs").doc(id).get();
 
   if (!doc.exists) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -42,6 +44,8 @@ export async function GET(_, { params }) {
 
 
 export async function PUT(req, { params }) {
+  const { id } = await params;
+
   if (!db) {
     return NextResponse.json(
       { error: "Firestore is not configured locally" },
@@ -84,13 +88,15 @@ export async function PUT(req, { params }) {
     updateData.featuredImage = featuredImage;
   }
 
-  await db.collection("blogs").doc(params.id).update(updateData);
+  await db.collection("blogs").doc(id).update(updateData);
 
   return NextResponse.json({ success: true });
 }
 
 
 export async function DELETE(_, { params }) {
+  const { id } = await params;
+
   if (!db) {
     return NextResponse.json(
       { error: "Firestore is not configured locally" },
@@ -98,7 +104,7 @@ export async function DELETE(_, { params }) {
     );
   }
 
-  await db.collection("blogs").doc(params.id).delete();
+  await db.collection("blogs").doc(id).delete();
 
   return NextResponse.json({ success: true });
 }
