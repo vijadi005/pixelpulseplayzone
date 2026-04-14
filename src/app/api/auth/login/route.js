@@ -10,6 +10,13 @@ import handlePost from "@/lib/postHandler";
 async function loginLogic(req) {
   const { email, password } = await req.json();
 
+  if (!db) {
+    return NextResponse.json(
+      { error: "Firestore is not configured." },
+      { status: 500 }
+    );
+  }
+
   if (!email || !password) {
     return NextResponse.json(
       { error: "Email and password required" },
