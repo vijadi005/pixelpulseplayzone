@@ -129,8 +129,8 @@ export async function POST(request) {
 
     await transporter.sendMail({
       from: {
-        name: visitorDisplayName,
-        address: visitorEmail,
+        name: visitorEmail,
+        address: authenticatedSender,
       },
       to: CONTACT_EMAIL,
       replyTo: {
