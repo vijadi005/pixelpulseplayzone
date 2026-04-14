@@ -19,9 +19,11 @@ export async function generateMetadata() {
     const configdata = await fetchsheetdata("config", location_slug);
     const dynamicMeta = Object.fromEntries(
       configdata
-        .filter((item) => item.key.startsWith("meta_"))
-        .map((item) => [item.key.replace("meta_", ""), item.value])
+        .filter((item) => typeof item.key === "string" && item.key.startsWith("meta_"))
+        .map((item) => [item.key.replace("meta_", ""), item.value || ""])
     );
+    const siteUrl = BASE_URL || "https://www.pixelpulseplay.ca";
+
     return {
       title: "Pixel Pulse Play Vaughan – Ultimate Indoor Arcade & Challenge Rooms",
       description:
@@ -30,14 +32,14 @@ export async function generateMetadata() {
         index: true,
       },
       alternates: {
-        canonical: BASE_URL + "/",
+        canonical: siteUrl + "/",
       },
       other: {
         ...dynamicMeta,
       },
       openGraph: {
         type: "website",
-        url: BASE_URL,
+        url: siteUrl,
         title:
           "Pixel Pulse Play Vaughan – Arcade Games & Interactive Challenge Rooms",
         description:

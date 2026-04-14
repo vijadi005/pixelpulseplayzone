@@ -36,7 +36,10 @@ async function populateSheetCache() {
     if (name === 'config') {
       sheetData = sheetData.map((m) => ({
         ...m,
-        value: typeof m.value === 'string' ? m.value.replace(/\r?\n|\r/g, "<br/>") : m.value,
+        value:
+          typeof m.value === 'string'
+            ? m.value.replace(/\r?\n|\r/g, "<br/>")
+            : m.value || "",
       }));
     }
 
